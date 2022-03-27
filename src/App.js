@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import NavBar from './layouts/NavBar';
 import Login from './authentication/Login';
-import SignUp from './authentication/SignUp';
-import Customer from './screens/Customer';
+import Post from './screens/Post';
 
 function App() {
   const [user, setUser] = useState('');
@@ -25,12 +24,13 @@ function App() {
       {user !== null ? (
         <>
         <NavBar setUserState={() => setUser(null)}/>
-        <Customer/>
+        <Post/>
         </>
       ) : (
          <>
-         {toggleForm ? (<Login loggedIn={(user) => setUser(user)} toggle={() => formMode()}/>) 
-         : ( <SignUp toggle={() => formMode()}/>)}
+         {
+           (<Login loggedIn={(user) => setUser(user)} toggle={() => formMode()}/>)
+         }
         
      </>
       )} 

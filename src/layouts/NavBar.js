@@ -23,7 +23,7 @@ const NavBar = (props) => {
             <AppBar position="static" className={classes.menubackgroud}>
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        React Js with Firebase Authentication
+                        MaviaSun Team Zone
                     </Typography>
                     {auth && (
                     <div>
@@ -51,7 +51,6 @@ const NavBar = (props) => {
                         open={open}
                         onClose={handleClose}
                         >
-                        <MenuItem>Profile</MenuItem>
                         <MenuItem onClick={handleClose}>Logout</MenuItem>
                         </Menu>
                     </div>

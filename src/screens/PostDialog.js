@@ -5,7 +5,7 @@ import {Dialog, DialogActions, DialogContent, DialogTitle, Button,
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 
-const CustomerDialog = (props) => {
+const PostDialog = (props) => {
     return (
         <Dialog
         fullWidth={true}
@@ -14,9 +14,9 @@ const CustomerDialog = (props) => {
         onClose={props.close}
         aria-labelledby="max-width-dialog-title"
         >
-            <DialogTitle>{props.formmode ?  'Add New' : 'Update'}  Customer</DialogTitle>
+            <DialogTitle>{props.formmode ?  'Aggiungi' : 'Aggiorna'}  Post</DialogTitle>
             <ValidatorForm
-                onSubmit={props.addCustomer}
+                onSubmit={props.addPost}
             >
                 <DialogContent>
                     <Grid container spacing={3}>
@@ -25,10 +25,10 @@ const CustomerDialog = (props) => {
                             variant="outlined"
                             margin="normal"
                             fullWidth
-                            label="First Name"
-                            onChange={props.changeFirstname}
-                            name="firstname"
-                            value={props.firstname}
+                            label="Categoria"
+                            onChange={props.changeCategoria}
+                            name="categoria"
+                            value={props.categoria}
                             validators={['required']}
                             errorMessages={['this field is required']}
                             autoComplete='off'
@@ -39,10 +39,10 @@ const CustomerDialog = (props) => {
                             variant="outlined"
                             margin="normal"
                             fullWidth
-                            label="Last Name"
-                            onChange={props.changeLastname}
-                            name="lastname"
-                            value={props.lastname}
+                            label="Link Post"
+                            onChange={props.changeLink_content}
+                            name="link_content"
+                            value={props.link_content}
                             validators={['required']}
                             errorMessages={['this field is required']}
                             autoComplete='off'
@@ -53,10 +53,10 @@ const CustomerDialog = (props) => {
                                 variant="outlined"
                                 margin="normal"
                                 fullWidth
-                                label="Phone Number"
-                                onChange={props.changephonenumber}
-                                name="phonenumber"
-                                value={props.phonenumber}
+                                label="Link Immagine"
+                                onChange={props.changeLink_immagine}
+                                name="link_immagine"
+                                value={props.link_immagine}
                                 validators={['required']}
                                 errorMessages={['this field is required']}
                                 autoComplete='off'
@@ -67,10 +67,10 @@ const CustomerDialog = (props) => {
                                 variant="outlined"
                                 margin="normal"
                                 fullWidth
-                                label="Post Code"
-                                onChange={props.changepostcode}
-                                name="postcode"
-                                value={props.postcode}
+                                label="Titolo"
+                                onChange={props.changeTitolo}
+                                name="titolo"
+                                value={props.titolo}
                                 validators={['required']}
                                 errorMessages={['this field is required']}
                                 autoComplete='off'
@@ -81,41 +81,23 @@ const CustomerDialog = (props) => {
                                 variant="outlined"
                                 margin="normal"
                                 fullWidth
-                                label="City"
-                                onChange={props.changeCity}
-                                name="city"
-                                value={props.city}
+                                label="Descrizione"
+                                onChange={props.changeDescrizione}
+                                name="descrizione"
+                                value={props.descrizione}
                                 validators={['required']}
                                 errorMessages={['this field is required']}
                                 autoComplete='off'
                             />
-                        </Grid>
-                        <Grid item xs={3}>
-                            <FormControl component="fieldset">
-                                <FormLabel component="legend">Gender</FormLabel>
-                                <RadioGroup aria-label="gender" name="gender" value={props.gender} onChange={props.changeGender}>
-                                    <FormControlLabel value="Female" control={<Radio />} label="Female" />
-                                    <FormControlLabel value="Male" control={<Radio />} label="Male" />
-                                </RadioGroup>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={3}>
-                        <FormControl component="fieldset">
-                            <FormLabel component="legend">Marital Status</FormLabel>
-                            <RadioGroup aria-label="status" name="status" value={props.status} onChange={props.changeStatus}>
-                                <FormControlLabel value="Single" control={<Radio />} label="Single" />
-                                <FormControlLabel value="Married" control={<Radio />} label="Married" />
-                            </RadioGroup>
-                        </FormControl>
                         </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button type="submit" color="secondary">
-                       {props.formmode ? 'Add' : 'Update'}
+                       {props.formmode ? 'AGGIUNGI' : 'AGGIORNA'}
                     </Button>
                     <Button onClick={props.close} color="primary">
-                        Close
+                        CHIUDI
                     </Button>
                 </DialogActions>
             </ValidatorForm>
@@ -123,4 +105,4 @@ const CustomerDialog = (props) => {
     );
 }
 
-export default CustomerDialog;
+export default PostDialog;
