@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 # MaviaSunAdminZone
-MaviaSunAdminZone
 =======
 # Getting Started with Create React App
 
