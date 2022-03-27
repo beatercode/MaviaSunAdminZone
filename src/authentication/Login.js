@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import {Container, CssBaseline, Avatar, Typography, FormControlLabel, 
-    Button, Checkbox, Grid, Link, makeStyles, Card, CardContent} from '@material-ui/core';
-import {LockRounded} from '@material-ui/icons';
-import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import {
+    Container, CssBaseline, Avatar, Typography, FormControlLabel,
+    Button, Checkbox, makeStyles, Card, CardContent
+} from '@material-ui/core';
+import { LockRounded } from '@material-ui/icons';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import fire from '../helpers/db';
-import {ToastContainer, toast} from 'react-toastify';
-import {ScaleLoader} from 'react-spinners';
+import { ToastContainer, toast } from 'react-toastify';
+import { ScaleLoader } from 'react-spinners';
 
 const Login = (props) => {
     const classes = useStyles();
@@ -33,7 +35,7 @@ const Login = (props) => {
         fire.auth()
             .signInWithEmailAndPassword(email, password)
             .then(response => {
-                const {user} =  response;
+                const { user } = response;
                 const data = {
                     userId: user.uid,
                     email: user.email
@@ -53,35 +55,35 @@ const Login = (props) => {
         <Container component="main" maxWidth="xs">
             <Card className={classes.card}>
                 <CardContent>
-                    <ToastContainer/>
-                    <CssBaseline/>
+                    <ToastContainer />
+                    <CssBaseline />
                     <div className={classes.paper}>
                         <Avatar className={classes.avatar}>
-                            <LockRounded/>
+                            <LockRounded />
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Sign In
                         </Typography>
-                        <ValidatorForm 
+                        <ValidatorForm
                             onSubmit={handlerLogin}
                             onError={errors => {
                                 for (const err of errors) {
-                                  console.log(err.props.errorMessages[0])
+                                    console.log(err.props.errorMessages[0])
                                 }
-                                }}
-                                className={classes.form}>
-                        <TextValidator
-                         variant="outlined"
-                         margin="normal"
-                         fullWidth
-                         label="Email"
-                         onChange={handleEmail}
-                         name="email"
-                         value={email}
-                         validators={['required', 'isEmail']}
-                         errorMessages={['this field is required', 'email is not valid']}
-                         autoComplete='off' />
-                          <TextValidator
+                            }}
+                            className={classes.form}>
+                            <TextValidator
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                label="Email"
+                                onChange={handleEmail}
+                                name="email"
+                                value={email}
+                                validators={['required', 'isEmail']}
+                                errorMessages={['this field is required', 'email is not valid']}
+                                autoComplete='off' />
+                            <TextValidator
                                 variant="outlined"
                                 fullWidth
                                 label="Password"
@@ -93,26 +95,26 @@ const Login = (props) => {
                                 errorMessages={['this field is required']}
                                 autoComplete="off"
                             />
-                        <FormControlLabel
-                            control={<Checkbox value={rememberme} onChange={(e) => handleCheck(e)}  color="primary" />}
-                            label="Remember me"
-                        />
-                        {loading ? (
-                            <ScaleLoader
-                            css={override}
-                            size={150}
-                            color={"#eb4034"}
-                            loading={loading}/>
-                        ) : (
-                             <Button
-                             type="submit"
-                             fullWidth
-                             variant="contained"
-                             className={classes.submit}
-                         >
-                             Sign In
-                         </Button>
-                        )}
+                            <FormControlLabel
+                                control={<Checkbox value={rememberme} onChange={(e) => handleCheck(e)} color="primary" />}
+                                label="Remember me"
+                            />
+                            {loading ? (
+                                <ScaleLoader
+                                    css={override}
+                                    size={150}
+                                    color={"#eb4034"}
+                                    loading={loading} />
+                            ) : (
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    className={classes.submit}
+                                >
+                                    Sign In
+                                </Button>
+                            )}
                         </ValidatorForm>
                     </div>
                 </CardContent>
@@ -127,29 +129,29 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-      },
-      avatar: {
+    },
+    avatar: {
         margin: theme.spacing(1),
         backgroundColor: theme.palette.secondary.main,
-      },
-      form: {
+    },
+    form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(1),
-      },
-      submit: {
-          background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-          margin: theme.spacing(3, 0, 2),
-          color: '#fff'
-      },
-      card: {
-          marginTop: '60px',
-          paddingLeft: '20px',
-          paddingRight: '20px',
-          paddingBottom: '20px',
-      },
-      pointer: {
-          cursor: 'pointer',
-          color: 'red'
-      }
+    },
+    submit: {
+        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        margin: theme.spacing(3, 0, 2),
+        color: '#fff'
+    },
+    card: {
+        marginTop: '60px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        paddingBottom: '20px',
+    },
+    pointer: {
+        cursor: 'pointer',
+        color: 'red'
+    }
 }));
 export default Login;
