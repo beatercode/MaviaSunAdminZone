@@ -5,6 +5,12 @@ import {
     Grid
 } from '@material-ui/core';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    DateTimePicker,
+    MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+import { SelectInput } from 'react-admin';
 
 
 const PostDialog = (props) => {
@@ -21,6 +27,10 @@ const PostDialog = (props) => {
                 onSubmit={props.addPost}
             >
                 <DialogContent>
+                    <SelectInput choices={[
+                        { id: 'programming', name: 'Programming' },
+                        { id: 'lifestyle', name: 'Lifestyle' },
+                        { id: 'photography', name: 'Photography' }]} />
                     <Grid container spacing={3}>
                         <Grid item xs={6}>
                             <TextValidator
@@ -91,6 +101,23 @@ const PostDialog = (props) => {
                                 errorMessages={['this field is required']}
                                 autoComplete='off'
                             />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <DateTimePicker
+                                    variant="outlined"
+                                    margin="normal"
+                                    fullWidth
+                                    label="Data"
+                                    onChange={props.changeData}
+                                    name="data"
+                                    format="dd/MM/yyyy"
+                                    value={props.data}
+                                    validators={['required']}
+                                    errorMessages={['this field is required']}
+                                    autoComplete='off'
+                                />
+                            </MuiPickersUtilsProvider>
                         </Grid>
                     </Grid>
                 </DialogContent>

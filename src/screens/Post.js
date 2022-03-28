@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import {Table, TableBody, TableCell, TableRow, TableHead,
+import {
+    Table, TableBody, TableCell, TableRow, TableHead,
     TableContainer, Paper, makeStyles, Container,
-    Typography, Button, Grid, IconButton} from '@material-ui/core';
-import {AddCircle, Edit, Delete} from '@material-ui/icons';
-import {ScaleLoader} from 'react-spinners';
-import {ToastContainer, toast} from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+    Typography, Button, Grid, IconButton
+} from '@material-ui/core';
+import { AddCircle, Edit, Delete } from '@material-ui/icons';
+import { ScaleLoader } from 'react-spinners';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { getPosts, addPost, getPost, updatePost, deletePost } from './../data/postData';
 import PostDialog from './PostDialog';
 
 const Post = () => {
-    const classes  = useStyles();
+    const classes = useStyles();
     const [post, setPost] = useState([]);
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
@@ -18,10 +20,11 @@ const Post = () => {
     const [postId, setPostId] = useState('');
     const [categoria, setCategoria] = useState('');
     const [descrizione, setDescrizione] = useState('');
-    const [link_content, setLink_content] =  useState('');
+    const [link_content, setLink_content] = useState('');
     const [link_immagine, setLink_immagine] = useState('');
     const [titolo, setTitolo] = useState('');
-    const override =`
+    const [data, setData] = useState('');
+    const override = `
         display: flex;
         align-items: center;
         justify-content: center;    
@@ -45,7 +48,10 @@ const Post = () => {
     const handleTitolo = (event) => {
         setTitolo(event.target.value);
     }
-    const getlist = async () => { 
+    const handleData = (event) => {
+        setData(event);
+    }
+    const getlist = async () => {
         try {
             setLoading(true);
             const list = await getPosts();
@@ -57,73 +63,81 @@ const Post = () => {
         }
     }
     const getOnePost = async (id) => {
-            try {
-                setFormMode(false);
-                setPostId(id);
-                const response = await getPost(id);
-                 setCategoria(response.categoria);
-                 setDescrizione(response.descrizione);
-                 setLink_content(response.link_content);
-                 setLink_immagine(response.link_immagine);
-                 setTitolo(response.titolo);
-                 setOpen(true);
-            } catch (error) {
-                toast.error(error.message);
-            }
+        try {
+            setFormMode(false);
+            setPostId(id);
+            const response = await getPost(id);
+            setCategoria(response.categoria);
+            setDescrizione(response.descrizione);
+            setLink_content(response.link_content);
+            setLink_immagine(response.link_immagine);
+            setTitolo(response.titolo);
+            var t = new Date(1970, 0, 1);
+            t.setMilliseconds(response.data.seconds * 1000 + 2 * 60 * 60 * 1000);
+            setData(t);
+            setOpen(true);
+        } catch (error) {
+            toast.error(error.message);
+        }
 
     }
     const deleteHandler = async (id) => {
-            try {
-                await deletePost(id);
-                getlist();
-                toast.success('Post Deleted Successfully');
-            } catch (error) {
-                toast.error(error.message);
-            }
+        try {
+            await deletePost(id);
+            getlist();
+            toast.success('Post Deleted Successfully');
+        } catch (error) {
+            toast.error(error.message);
+        }
     }
     const handleAdd = () => {
-            setOpen(true);
-            setFormMode(true);
-            setCategoria('');
-            setDescrizione('');
-            setLink_content('');
-            setLink_immagine('');
-            setTitolo('');
+        setOpen(true);
+        setFormMode(true);
+        setCategoria('');
+        setDescrizione('');
+        setLink_content('');
+        setLink_immagine('');
+        setTitolo('');
+        setData('');
     }
 
     const addPostHandler = async () => {
-            try {
-                 const post = {
-                     categoria,
-                     descrizione,
-                     link_content,
-                     link_immagine,
-                     titolo,
-                 }
-                if (formMode) {
-                    await addPost(post);
-                    toast.success('Post Added Successfully');
-                    getlist();
-                    setOpen(false);
-                    setCategoria('');
-                    setDescrizione('');
-                    setLink_content('');
-                    setLink_immagine('');
-                    setTitolo(''); 
-                } else {
-                    await updatePost(postId, post);
-                    toast.success('Post Updated Successfully');
-                    getlist();
-                    setOpen(false);
-                    setCategoria('');
-                    setDescrizione('');
-                    setLink_content('');
-                    setLink_immagine('');
-                    setTitolo('');
-                }
-            } catch (error) {
-                toast.error(error.message);
+        try {
+            console.log(data);
+            const post = {
+                categoria,
+                descrizione,
+                link_content,
+                link_immagine,
+                titolo,
+                data,
             }
+            if (formMode) {
+                await addPost(post);
+                toast.success('Post Added Successfully');
+                getlist();
+                setOpen(false);
+                setCategoria('');
+                setDescrizione('');
+                setLink_content('');
+                setLink_immagine('');
+                setTitolo('');
+                setData('');
+            } else {
+                await updatePost(postId, post);
+                toast.success('Post Updated Successfully');
+                getlist();
+                setOpen(false);
+                setCategoria('');
+                setDescrizione('');
+                setLink_content('');
+                setLink_immagine('');
+                setTitolo('');
+                setData('');
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
     }
 
     useEffect(() => {
@@ -144,19 +158,19 @@ const Post = () => {
             />
             <TableContainer component={Paper}>
                 <Grid container>
-                    <Grid item xs={6}>
-                    <Typography className={classes.title} variant="h6" component="div">
-                        Tutti i Post
-                    </Typography>
+                    <Grid item xs={7}>
+                        <Typography className={classes.title} variant="h6" component="div">
+                            Tutti i Post
+                        </Typography>
                     </Grid>
                     <Grid item xs={4}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleAdd}
-                        className={classes.button}
-                        startIcon={<AddCircle/>}
-                    >Add</Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleAdd}
+                            className={classes.button}
+                            startIcon={<AddCircle />}
+                        >Add</Button>
                     </Grid>
                 </Grid>
                 <Table className={classes.table}>
@@ -167,6 +181,7 @@ const Post = () => {
                             <TableCell className={classes.head}>Link Post</TableCell>
                             <TableCell className={classes.head}>Link Immagine</TableCell>
                             <TableCell className={classes.head}>Titolo</TableCell>
+                            <TableCell className={classes.head}>Data</TableCell>
                             <TableCell className={classes.head}>Azioni</TableCell>
                         </TableRow>
                     </TableHead>
@@ -175,41 +190,42 @@ const Post = () => {
                         {post.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={7}>
-                                    <ScaleLoader 
-                                     css={override}
-                                    size={150}
-                                    color={"#eb4034"}
-                                    loading={loading}/>
+                                    <ScaleLoader
+                                        css={override}
+                                        size={150}
+                                        color={"#eb4034"}
+                                        loading={loading} />
                                 </TableCell>
                             </TableRow>
                         ) : (
                             <>
-                            {post.map((post) => (
-                                <TableRow key={post.id}>
-                                  <TableCell>{post.categoria}</TableCell>
-                                  <TableCell>{post.descrizione}</TableCell>
-                                  <TableCell>{post.link_content.toString().length > 15 ? post.link_content.toString().substring(0, 15) + "..." : post.link_content}</TableCell>
-                                  <TableCell>{post.link_immagine.toString().length > 15 ? post.link_immagine.toString().substring(0, 15) + "..." : post.link_immagine}</TableCell>
-                                  <TableCell>{post.titolo.toString().length > 15 ? post.titolo.toString().substring(0, 15) + "..." : post.titolo}</TableCell>
-                                  <TableCell>
-                                    <IconButton onClick={() => getOnePost(post.id)} color="primary" aria-label="update post">
-                                            <Edit />
-                                    </IconButton>
-                                    <IconButton onClick={() => { if (window.confirm('Sei proprio sicuro uhu ?')) deleteHandler(post.id) }} color="secondary" aria-label="delete post">
-                                        <Delete />
-                                    </IconButton>
-                                  </TableCell>
-                              </TableRow>
-                            ))}
-                              
+                                {post.map((post) => (
+                                    <TableRow key={post.id}>
+                                        <TableCell>{post.categoria}</TableCell>
+                                        <TableCell>{post.descrizione}</TableCell>
+                                        <TableCell>{post.link_content.toString().length > 15 ? post.link_content.toString().substring(0, 15) + "..." : post.link_content}</TableCell>
+                                        <TableCell>{post.link_immagine.toString().length > 15 ? post.link_immagine.toString().substring(0, 15) + "..." : post.link_immagine}</TableCell>
+                                        <TableCell>{post.titolo.toString().length > 15 ? post.titolo.toString().substring(0, 15) + "..." : post.titolo}</TableCell>
+                                        <TableCell>{post.data}</TableCell>
+                                        <TableCell>
+                                            <IconButton onClick={() => getOnePost(post.id)} color="primary" aria-label="update post">
+                                                <Edit />
+                                            </IconButton>
+                                            <IconButton onClick={() => { if (window.confirm('Sei proprio sicuro uhu ?')) deleteHandler(post.id) }} color="secondary" aria-label="delete post">
+                                                <Delete />
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+
                             </>
                         )}
-                        
+
                     </TableBody>
-                </Table>  
+                </Table>
             </TableContainer>
             <PostDialog
-                open={open} 
+                open={open}
                 close={handleClose}
                 formmode={formMode}
                 categoria={categoria}
@@ -217,11 +233,13 @@ const Post = () => {
                 link_content={link_content}
                 link_immagine={link_immagine}
                 titolo={titolo}
+                data={data}
                 changeCategoria={handleCategoria}
                 changeDescrizione={handleDescrizione}
                 changeLink_content={handleLink_content}
                 changeLink_immagine={handleLink_immagine}
                 changeTitolo={handleTitolo}
+                changeData={handleData}
                 addPost={addPostHandler}
             />
         </Container>
@@ -234,7 +252,7 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         marginTop: '40px'
-    }, 
+    },
     title: {
         flex: '1 1 100%',
         padding: '20px'
