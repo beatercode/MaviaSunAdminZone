@@ -10,7 +10,6 @@ import {
     DateTimePicker,
     MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
-import { SelectInput } from 'react-admin';
 
 
 const PostDialog = (props) => {
@@ -27,10 +26,6 @@ const PostDialog = (props) => {
                 onSubmit={props.addPost}
             >
                 <DialogContent>
-                    <SelectInput choices={[
-                        { id: 'programming', name: 'Programming' },
-                        { id: 'lifestyle', name: 'Lifestyle' },
-                        { id: 'photography', name: 'Photography' }]} />
                     <Grid container spacing={3}>
                         <Grid item xs={6}>
                             <TextValidator
